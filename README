@@ -1,0 +1,276 @@
+# Project Documentation
+
+## Overview
+
+This project is an end-to-end (E2E) test automation framework for the SauceDemo web application.
+
+It uses WebdriverIO with TypeScript and Cucumber to automate browser interactions and validate the application's main user workflows.
+
+The project follows the Page Object Model (POM) design pattern to keep selectors, actions, and validations organized and maintainable.
+
+## Technology Choices and Trade-offs
+
+The framework was built using **WebdriverIO, TypeScript, Cucumber/Gherkin, Yarn, and Allure Reports**. WebdriverIO was selected for browser automation, while TypeScript provides type safety and better maintainability. Cucumber/Gherkin allows test scenarios to be written in a clear, business-readable format, and Allure provides detailed test execution reports. Yarn was used for dependency management.
+
+The **Page Object Model (POM)** was adopted to separate page elements, actions, and validations, improving reusability and maintainability. The main trade-off is that this structure requires more initial setup and additional files compared with writing tests directly in step definitions.
+
+The tests target the SauceDemo application using Chrome. Credentials and the base URL are managed through environment variables in a `.env` file. The framework currently focuses on UI end-to-end testing rather than API testing or cross-browser coverage.
+
+## Tech Stack
+
+- WebdriverIO
+- TypeScript
+- Node.js
+- Yarn
+- Cucumber
+- Gherkin
+- Expect-WebdriverIO
+- Allure Reports
+- Google Chrome
+
+## Prerequisites
+
+Make sure the following tools are installed:
+
+- [Node.js](https://nodejs.org/)
+- [Yarn](https://yarnpkg.com/)
+- [Google Chrome](https://www.google.com/chrome/)
+
+## Installation
+
+### 1.Extract and open the project folder
+
+Extract the ZIP archive and open the wdio-e2e-project folder in Visual Studio Code or PowerShell.
+
+Run all commands from the project root directory.
+
+### 2. Install Yarn
+
+If Yarn is not already installed, open PowerShell and run:
+
+```
+& "C:\Program Files\nodejs\npm.cmd" install --global yarn
+```
+
+Verify the installation:
+
+```
+yarn.cmd --version
+```
+
+### 3. Install project dependencies
+
+From the project root directory, run:
+
+```
+yarn.cmd install
+```
+
+This installs all dependencies defined in `package.json`.
+
+### 3. Configure environment variables
+
+Create a .env file in the project root directory, using .env.example as a template.
+
+Example:
+
+BASE_URL=https://www.saucedemo.com
+SAUCE_USERNAME=standard_user
+SAUCE_PASSWORD=secret_sauce
+
+
+## Running Tests Locally
+
+To execute the complete WebdriverIO test suite:
+
+```
+yarn.cmd wdio
+```
+
+Tests are written using Cucumber feature files with Gherkin syntax and are located in:
+
+```text
+test/features/
+```
+
+Tests will run in the browser configured in `wdio.conf.ts`.
+
+## Cucumber and Gherkin
+
+This project uses Cucumber for Behavior-Driven Development (BDD).
+
+Feature files describe application behavior using Given, When, and Then steps.
+
+
+Step definitions connect the Gherkin steps to the automation code and are stored in:
+
+```text
+test/step-definitions/
+```
+
+## Page Object Model (POM)
+
+The project follows the Page Object Model design pattern to separate page selectors, actions, and validations.
+
+The test/pages/ directory contains page-specific files organized by application functionality.
+
+-.pom.ts – Page selectors and element references.
+
+-.actions.ts – Reusable browser interactions.
+
+-.validations.ts – Assertions and page validations.
+
+The base-page.ts file contains shared browser page functionality.
+
+Step definitions call the corresponding page methods instead of directly interacting with browser elements.
+
+## Allure Reports
+
+This project uses Allure to generate detailed and interactive test execution reports.
+
+### 1. Install Allure dependencies
+
+```
+yarn.cmd add --dev @wdio/allure-reporter allure-commandline
+```
+
+### 2. Configure the Allure reporter
+
+In `wdio.conf.ts`, configure the reporters section:
+
+```typescript
+reporters: [
+    'spec',
+    ['allure', {
+        outputDir: 'allure-results',
+        disableWebdriverStepsReporting: false,
+        disableWebdriverScreenshotsReporting: false,
+    }],
+],
+```
+
+### 3. Execute the tests
+
+```
+yarn.cmd wdio
+```
+
+Raw test results will be generated in the `allure-results` directory.
+
+### 4. Generate the Allure HTML report
+
+```
+yarn.cmd allure generate allure-results --clean
+```
+
+### 5. Open the Allure report
+
+```
+yarn.cmd allure open allure-report
+```
+
+### Allure Report Features
+
+The report provides information about:
+
+- Passed, failed, and skipped tests
+- Test execution details
+- Failure messages and stack traces
+- Test execution history
+- Screenshots and browser steps, when configured
+
+## Project Structure
+
+wdio-e2e-project/
+│
+├── test/
+│   ├── data/
+│   │
+│   ├── features/
+│   │   ├── login.feature
+│   │   └── purchase.feature
+│   │
+│   ├── pages/
+│   │   ├── base-page.ts
+│   │   │
+│   │   └── page-features/
+│   │       ├── cart-page/
+│   │       │   ├── cart-page.actions.ts
+│   │       │   ├── cart-page.pom.ts
+│   │       │   └── cart-page.validations.ts
+│   │       │
+│   │       ├── checkout-complete-page/
+│   │       │   ├── checkoutComplete-page.pom.ts
+│   │       │   └── checkoutComplete-page.validations.ts
+│   │       │
+│   │       ├── checkout-information-page/
+│   │       │   ├── checkoutInfo-page.actions.ts
+│   │       │   ├── checkoutInfo-page.pom.ts
+│   │       │   └── checkoutInfo-page.validations.ts
+│   │       │
+│   │       ├── checkout-overview-page/
+│   │       │   ├── checkoutOverview-page.actions.ts
+│   │       │   ├── checkoutOverview-page.pom.ts
+│   │       │   └── checkoutOverview-page.validations.ts
+│   │       │
+│   │       ├── login-page/
+│   │       │   ├── login-page.actions.ts
+│   │       │   ├── login-page.pom.ts
+│   │       │   └── login-page.validations.ts
+│   │       │
+│   │       └── product-page/
+│   │           ├── product-page.actions.ts
+│   │           ├── product-page.pom.ts
+│   │           └── product-page.validations.ts
+│   │
+│   ├── step-definitions/
+│   │   ├── cart-page/
+│   │   │   ├── cart-page-given.steps.ts
+│   │   │   └── cart-page-then.steps.ts
+│   │   │
+│   │   ├── checkout-complete-page/
+│   │   │   └── checkout-complete-page-then.steps.ts
+│   │   │
+│   │   ├── checkout-information-page/
+│   │   │   ├── checkout-information-page-given.steps.ts
+│   │   │   └── checkout-information-page-when.steps.ts
+│   │   │
+│   │   ├── checkout-overview-page/
+│   │   │   ├── checkout-overview-page-then.steps.ts
+│   │   │   └── checkout-overview-page-when.steps.ts
+│   │   │
+│   │   ├── login-page/
+│   │   │   ├── login-page-given.steps.ts
+│   │   │   ├── login-page-then.steps.ts
+│   │   │   └── login-page-when.steps.ts
+│   │   │
+│   │   └── product-page/
+│   │       ├── product-page-then.steps.ts
+│   │       └── product-page-when.steps.ts
+│   │
+│   └── utils/
+│       ├── logger.ts
+│       ├── ui-common.actions.ts
+│       ├── ui-common.constants.ts
+│       ├── ui-common.validations.ts
+│       └── world.ts
+│
+├── .env.example
+├── .gitignore
+├── eslint.config.mjs
+├── package.json
+├── tsconfig.json
+├── wdio.conf.ts
+├── yarn.lock
+└── README.md
+
+
+
+## Notes
+
+- Run all commands from the project root directory.
+- Use `yarn.cmd` in Windows PowerShell if the `yarn` command is blocked by PowerShell execution policies.
+- Ensure Chrome and the required WebdriverIO browser configuration are available.
+- Ensure the feature and step-definition paths in wdio.conf.ts match the project structure.
+- Do not store sensitive credentials directly in test files.
+- The entire project can be installed, executed, and maintained locally without a remote repository.
