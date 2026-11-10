@@ -11,7 +11,7 @@ Given('the user succeeds in login to the website', async () => {
     const password = process.env.SAUCE_PASSWORD;
 
     if (!baseUrl || !username || !password) {
-        throw new Error('BASE_URL, USERNAME or PASSWORD is missing from .env');
+        throw new Error('BASE_URL, SAUCE_USERNAME or SAUCE_PASSWORD is missing from environment variables');
     }
 
     await basePage.open(baseUrl);

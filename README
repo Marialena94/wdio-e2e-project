@@ -38,10 +38,12 @@ Make sure the following tools are installed:
 
 ## Installation
 
-### 1.Extract and open the project folder
+### 1.Open the project folder
 
-Extract the ZIP archive and open the wdio-e2e-project folder in Visual Studio Code or PowerShell.
+Extract the project ZIP file, or clone the GitHub repository:
+`git clone https://github.com/Yuno94/wdio-e2e-project.git`
 
+Open the wdio-e2e-project folder in Visual Studio Code or PowerShell.
 Run all commands from the project root directory.
 
 ### 2. Install Yarn
@@ -49,7 +51,7 @@ Run all commands from the project root directory.
 If Yarn is not already installed, open PowerShell and run:
 
 ```
-& "C:\Program Files\nodejs\npm.cmd" install --global yarn
+npm.cmd install --global yarn@1.22.22
 ```
 
 Verify the installation:
@@ -77,7 +79,11 @@ Example:
 BASE_URL=https://www.saucedemo.com
 SAUCE_USERNAME=standard_user
 SAUCE_PASSWORD=secret_sauce
+SAUCE_USERNAME2=locked_out_user
 
+These variables provide the application URL and test login credentials.
+
+Important: The .env file contains environment-specific configuration and should not be committed to GitHub. It is excluded through .gitignore.
 
 ## Running Tests Locally
 
@@ -87,6 +93,14 @@ To execute the complete WebdriverIO test suite:
 yarn.cmd wdio
 ```
 
+To execute only the purchase scenario:
+```
+yarn.cmd wdio --cucumberOpts.tags "@purchase"
+```
+To execute only scenarios tagged with @negative:
+```
+yarn.cmd wdio --cucumberOpts.tags "@negative"
+```
 Tests are written using Cucumber feature files with Gherkin syntax and are located in:
 
 ```text
@@ -100,7 +114,6 @@ Tests will run in the browser configured in `wdio.conf.ts`.
 This project uses Cucumber for Behavior-Driven Development (BDD).
 
 Feature files describe application behavior using Given, When, and Then steps.
-
 
 Step definitions connect the Gherkin steps to the automation code and are stored in:
 
@@ -179,9 +192,84 @@ The report provides information about:
 - Test execution history
 - Screenshots and browser steps, when configured
 
+### Screenshots and Video Reporting
+
+The framework includes screenshot and video reporting configuration through WebdriverIO reporters.
+
+Screenshots can be attached to Allure reports when a test step fails.
+
+Video recording is handled by the configured video reporter. FFmpeg must be installed and available on the system for video files to be generated.
+
+The availability of video recordings depends on the reporter configuration and execution environment.
+
+### GitHub Actions – Continuous Integration
+
+The project includes a GitHub Actions workflow:
+
+```
+.github/workflows/e2e.yml
+```
+
+The workflow is configured to execute the E2E tests automatically when changes are pushed to the main branch or when a pull request targets main.
+
+It performs the following steps:
+
+   - Checks out the repository.
+
+   - Sets up Node.js.
+
+   - Installs Yarn.
+
+   - Installs project dependencies.
+
+   - Executes the WebdriverIO test suite.
+
+   - Uploads Allure results as a workflow artifact.
+
+GitHub Secrets
+
+The .env file is not committed to GitHub. Instead, GitHub Actions receives the required environment variables through repository secrets.
+
+Configure the following secrets under:
+
+### GitHub Secrets 
+The .env file is not committed to GitHub. Instead, GitHub Actions receives the required environment variables through repository secrets.
+
+Configure the following secrets under:
+
+GitHub Repository → Settings → Secrets and variables → Actions
+Secret name      Purpose
+BASE_URL         SauceDemo application URL
+SAUCE_USERNAME   Standard test user
+SAUCE_PASSWORD   Test user password
+SAUCE_USERNAME2  Locked-out test user
+
+
+
+## Code Quality – ESLint
+
+The project uses ESLint to identify potential code issues and maintain consistent coding standards.
+
+To check the project:
+
+```
+yarn.cmd lint
+```
+
+To automatically fix supported linting issues:
+
+```
+yarn.cmd lint:fix
+```
+
 ## Project Structure
 
 wdio-e2e-project/
+│
+│
+├── .github/
+│   └── workflows/
+│       └── e2e.yml
 │
 ├── test/
 │   ├── data/

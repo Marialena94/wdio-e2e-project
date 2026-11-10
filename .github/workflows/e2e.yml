@@ -32,6 +32,7 @@ jobs:
           BASE_URL: ${{ secrets.BASE_URL }}
           SAUCE_USERNAME: ${{ secrets.SAUCE_USERNAME }}
           SAUCE_PASSWORD: ${{ secrets.SAUCE_PASSWORD }}
+          SAUCE_USERNAME2: ${{ secrets.SAUCE_USERNAME2 }}
 
       - name: Upload Allure results
         if: always()
