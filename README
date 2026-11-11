@@ -361,4 +361,3 @@ wdio-e2e-project/
 - Ensure Chrome and the required WebdriverIO browser configuration are available.
 - Ensure the feature and step-definition paths in wdio.conf.ts match the project structure.
 - Do not store sensitive credentials directly in test files.
-- The entire project can be installed, executed, and maintained locally without a remote repository.
