@@ -1,7 +1,7 @@
 import { Then } from '@wdio/cucumber-framework';
 import productPageValidations from '../../pages/page-features/product-page/product-page.validations';
 
-Then('the inventory page is displayed with exactly "{int}" products', async (productCount: number) => {
+Then('exactly "{int}" products are displayed on the product page', async (productCount: number) => {
     if (productCount === 6) {
         await productPageValidations.validateProductCount(productCount);
     } else {

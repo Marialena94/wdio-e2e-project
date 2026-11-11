@@ -6,7 +6,7 @@ Feature: Products and checkout
 
     @standard-user
     Scenario: Login and sort products by price, add cheapest products to cart, and proceed to checkout
-        Then the inventory page is displayed with exactly "6" products
+        Then exactly "6" products are displayed on the product page
         When the user attempts to sort the products by "Price low to high" on the product page
         Then the first product displayed is the cheapest on the product page
         When the user attempts to add the 2 cheapest products to the cart on the product page
