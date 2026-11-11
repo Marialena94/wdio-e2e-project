@@ -41,7 +41,7 @@ Make sure the following tools are installed:
 ### 1.Open the project folder
 
 Extract the project ZIP file, or clone the GitHub repository:
-`git clone https://github.com/Yuno94/wdio-e2e-project.git`
+`git clone https://github.com/Marialena94/wdio-e2e-project.git`
 
 Open the wdio-e2e-project folder in Visual Studio Code or PowerShell.
 Run all commands from the project root directory.
